@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ListingContext } from "../context/listingContext";
 
-function ListingCard({ description, image, location }) {
+function ListingCard({ description, image, location, id }) {
+  const { dispatch } = useContext(ListingContext)
+
+  const handleDelete = () => {
+    dispatch({ type: 'remove', payload: id})
+    fetch(`http://localhost:6001/listings/${id}`, {
+      method: 'DELETE'
+    })
+    .then(res => {
+      if (res.status !== 200) {
+        dispatch({ type: 'add', payload: { description, image, location, id }})
+      }
+    })
+
+  }
+
   return (
     <li className="card">
       <div className="image">
@@ -15,7 +31,7 @@ function ListingCard({ description, image, location }) {
         )}
         <strong>{description}</strong>
         <span> · {location}</span>
-        <button className="emoji-button delete">🗑</button>
+        <button onClick={handleDelete} className="emoji-button delete">🗑</button>
       </div>
     </li>
   );
