@@ -1,11 +1,15 @@
-import React from "react";
-// import ListingCard from "./ListingCard";
+import React, { useContext } from "react";
+import ListingCard from "./ListingCard";
+import { ListingContext } from "../context/listingContext"
 
 function ListingsContainer() {
+  const { listings } = useContext(ListingContext)
+  console.log(listings)
+
   return (
     <main>
       <ul className="cards">
-        {/* use the ListingCard component to display listings */}
+        {listings.map(listing => <ListingCard key={listing.id} {...listing} />)}
       </ul>
     </main>
   );
