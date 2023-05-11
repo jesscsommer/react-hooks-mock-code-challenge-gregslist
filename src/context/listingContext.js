@@ -22,6 +22,11 @@ const reducer = (state, action) => {
                 return state.filter(listing => listing.id !== action.payload)
             break; 
 
+        case 'search': 
+                console.log(action.payload)
+                return state.filter(listing => !action.payload || listing.description.toLowerCase().includes(action.payload.toLowerCase()))
+            break;
+
         default: 
             return state; 
     }

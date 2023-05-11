@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ListingContext } from "../context/listingContext";
 
 function Search() {
+  const { dispatch } = useContext(ListingContext)
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log("submitted");
+  }
+
+  const handleChange = (e) => {
+    dispatch({ type: 'search', payload: e.target.value})
   }
 
   return (
@@ -12,8 +19,8 @@ function Search() {
         type="text"
         id="search"
         placeholder="search free stuff"
-        value={""}
-        onChange={(e) => console.log(e.target.value)}
+        // value={""}
+        onChange={handleChange}
       />
       <button type="submit">🔍</button>
     </form>
