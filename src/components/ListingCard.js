@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { ListingContext } from "../context/listingContext";
 
-function ListingCard({ description, image, location, id }) {
+function ListingCard({ listing }) {
+  const { description, image, location, id } = listing
   const { dispatch } = useContext(ListingContext)
 
   const handleDelete = () => {
@@ -17,6 +18,21 @@ function ListingCard({ description, image, location, id }) {
 
   }
 
+  const handleFavorite = () => {
+    fetch(`http://localhost:6001/listings/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'favorite': !listing['favorite']
+      })
+    })
+    .then(res => res.json())
+    .then(data => dispatch({ type: 'patch', payload: data}))
+    .catch(err => alert(err))
+  }
+
   return (
     <li className="card">
       <div className="image">
@@ -24,10 +40,10 @@ function ListingCard({ description, image, location, id }) {
         <img src={image} alt={description} />
       </div>
       <div className="details">
-        {true ? (
-          <button className="emoji-button favorite active">★</button>
+        {listing['favorite'] ? (
+          <button onClick={handleFavorite} className="emoji-button favorite active">★</button>
         ) : (
-          <button className="emoji-button favorite">☆</button>
+          <button onClick={handleFavorite} className="emoji-button favorite">☆</button>
         )}
         <strong>{description}</strong>
         <span> · {location}</span>

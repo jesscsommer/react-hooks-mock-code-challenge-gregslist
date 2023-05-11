@@ -6,15 +6,19 @@ const initialState = []
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case "fetch":
+        case 'fetch':
                 return action.payload
             break;
 
-        case "add": 
+        case 'add': 
                 return [...state, action.payload]
             break; 
+        
+        case 'patch': 
+                return state.map(listing => listing.id === action.payload.id ? action.payload : listing)
+            break; 
 
-        case "remove": 
+        case 'remove': 
                 return state.filter(listing => listing.id !== action.payload)
             break; 
 

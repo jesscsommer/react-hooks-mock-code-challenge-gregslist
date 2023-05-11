@@ -9,7 +9,7 @@ function ListingsContainer() {
   return (
     <main>
       <ul className="cards">
-        {listings.map(listing => <ListingCard key={listing.id} {...listing} />)}
+        {listings.map(listing => <ListingCard key={listing.id} listing={listing} />)}
       </ul>
     </main>
   );
